@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="/static/jquery/dist/jquery.js"></script>
+    <script type="text/javascript" src="/static/bootstrap/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/static/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/bootstrap/dist/css/bootstrap-theme.min.css">
+</head>
+<body>
+<h1 class="text-center"> Github User Data </h1>
+	<div class="col-lg-12">
+      <style>
+        .form-signin {
+          max-width: 550px;
+          padding: 15px;
+          margin: 0 auto;
+        }    
+      </style>
+
+
+      <div class="container text-center">
+          <form class="form-signin" id="login_form" method="post" action="/app/profile/">
+            {% csrf_token %}
+
+            <br>
+            <input type="text" name="user" class="form-control" placeholder="Search Users Name, e.g: MMohan1" value="" required autofocus>
+            <input type="text" name="user" class="form-control" placeholder="Filter Users Search type, e.g: user,org" value="">
+            <input type="text" name="user" class="form-control" placeholder="Filter Users Search on fileds, e.g: login,email, fullname" value="">
+            <input type="text" name="user" class="form-control" placeholder="Filter Users Location, e.g: India" value="">
+            <input type="text" name="user" class="form-control" placeholder="Filter Users Language, e.g: Python" value="">
+            <input type="text" name="user" class="form-control" placeholder="Filter Users based on when they joined, e.g: 10D, 2M, 1Y" value="">
+            <input type="text" name="user" class="form-control" placeholder="Filter Users based on the number of followers they have, e.g: 30" value="">
+            <br>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Get Data Gist</button>
+          </form>
+      </div>
+      <div>
+        <h4>Total:</h4>
+        <h4>Fired Github Query:</h4> 
+        <span>Fatching the requests for Your given request is initiated....</span>
+        <br>
+        <span>Please go to admin panel to see the results.</span>
+      </div>
+      {% comment %}
+      <div class="table-responsive">
+          <table class="table table-bordered table-hover table-striped tablesorter">
+              <thead>
+              <tr>
+                <th class="header"> Total <i class="icon-sort"></i></th>
+                <th class="header"> Fired Query <i class="icon-sort"></i></th>
+                <th class="header"> Message <i class="icon-sort"></i></th>
+                <th class="header"> Public Gists <i class="icon-sort"></i></th>
+                <th class="header"> Email <i class="icon-sort"></i></th>
+                <th class="header"> Followers <i class="icon-sort"></i></th>
+                <th class="header"> Following <i class="icon-sort"></i></th>
+              </tr>
+          </thead>
+          <tbody>
+          
+          {% for key in data %}
+              <tr>
+                  <td>{{ key.name }}</td>
+                  <td>{{ key.blog }}</td>
+                  <td>{{ key.public_repos }}</td>
+                  <td>{{ key.public_gists }}</td>
+                  <td>{{ key.email }}</td>
+                  <td>{{ key.followers }}</td>
+                  <td>{{ key.following }}</td>
+              </tr>
+          {% endfor %}
+          
+          </tbody>
+          </table>
+      </div>
+      {% endcomment %}
+    </div>
+</body>
+</html>
