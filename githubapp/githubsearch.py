@@ -50,13 +50,11 @@ class gitHubApi():
         """
         """
         total = results_dict["total_count"]
-        location_obj, language_obj = None, None
+        language_obj = None
         query_obj = self.save_the_query(total)
-        if self.request.POST.get("location"):
-            location_obj = self.save_the_location(self.request.POST.get("location"))
         if self.request.POST.get("language"):
             language_obj = self.save_the_language(self.request.POST.get("language"))
-        self.save_the_results(results_dict["items"], query_obj, location_obj, language_obj)
+        self.save_the_results(results_dict["items"], query_obj, language_obj)
         pagination = 100
         page = 2
         while pagination < results_dict["total_count"]:
@@ -73,15 +71,11 @@ class gitHubApi():
     def complete_the_user_data(self, user_data):
         """
         """
-        followers = self.get_the_followers_count(user_data["followers_url"])
-        if followers != None:
-            user_data["followers"] = followers
-        repos = self.get_the_followers_count(user_data["repos_url"])
-        if repos != None:
-            user_data["repos"] = repos
+        new_user_data = self.get_the_user_details(user_data["url"])
+        user_data.update(new_user_data)
         return user_data
 
-    def save_the_results(self, results, query_obj, location_obj, language_obj):
+    def save_the_results(self, results, query_obj, language_obj):
         """
         """
         for rec in results:
@@ -93,8 +87,6 @@ class gitHubApi():
             rec = self.complete_the_user_data(rec)
             github = self.save_the_github_data(rec)
             query_obj.github_set.add(github)
-            if location_obj:
-                location_obj.github_set.add(github)
             if language_obj:
                 language_obj.github_set.add(github)
 
@@ -104,34 +96,37 @@ class gitHubApi():
         github_user, update = GitHub.objects.update_or_create(user=user_data["user"], defaults=user_data)
         return github_user
 
-    def create_the_user(self, user_info):
+    def get_the_user_details(self, user_url):
         """
         """
-        username = user_info.pop("login")
-        user, created = User.objects.get_or_create(username=username, password=username)
-        return user
-
-    def get_the_followers_count(self, followers_url):
-        """
-        """
-        response = requests.get(followers_url)
+        out_dict = {}
+        response = requests.get(user_url)
         if response.status_code == 200:
-            return len(response.json())
-        return None
+            response_dict = response.json()
+            out_dict["name"] = response_dict["name"]
+            out_dict["company"] = response_dict["company"]
+            out_dict["location"] = response_dict["location"]
+            out_dict["public_repos"] = response_dict["public_repos"]
+            out_dict["public_gists"] = response_dict["public_gists"]
+            out_dict["followers"] = response_dict["followers"]
+            out_dict["following"] = response_dict["following"]
+            out_dict["email"] = self.get_user_email(response_dict["login"])
+        return out_dict
 
-    def get_the_repos_count(self, repos_url):
+    def get_user_email(self, user_name):
         """
         """
-        response = requests.get(repos_url)
+        url = "https://api.github.com/users/"+user_name+"/events/public"
+        response = requests.get(url)
         if response.status_code == 200:
-            return len(response.json())
+            response_dict = response.json()
+            for rec in response_dict:
+                if rec.get("payload", {}).get("commits"):
+                    commits = rec.get("payload", {}).get("commits")
+                    for record in commits:
+                        if record["author"].get("name").lower() == user_name.lower():
+                            return record["author"]["email"]
         return None
-
-    def save_the_location(self, location):
-        """
-        """
-        location, update = Location.objects.get_or_create(location=location)
-        return location
 
     def save_the_query(self, total):
         """

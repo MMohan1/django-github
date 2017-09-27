@@ -22,6 +22,8 @@ class Queries(models.Model):
 
 class GitHub(models.Model):
     user = models.TextField()
+    name = models.TextField(null=True)
+    email = models.EmailField(null=True)
     github_id = models.IntegerField()
     avatar_url = models.TextField()
     gravatar_id = models.TextField()
@@ -38,10 +40,13 @@ class GitHub(models.Model):
     received_events_url = models.TextField()
     type = models.TextField()
     site_admin = models.TextField()
-    location = models.ForeignKey("Location", null=True)
+    location = models.TextField(null=True)
+    company = models.TextField(null=True)
     language = models.ForeignKey("Language", null=True)
+    following = models.IntegerField(null=True)
     followers = models.IntegerField(null=True)
-    repos = models.IntegerField(null=True)
+    public_repos = models.IntegerField(null=True)
+    public_gists = models.IntegerField(null=True)
     query = models.ForeignKey("Queries", null=True)
     creation_date = models.DateTimeField(auto_now=True)
 
