@@ -1,0 +1,54 @@
+{% extends "admin/change_list.html" %}
+{% block content_title %}
+    <h1> Git Hub Reports </h1>
+{% endblock %}
+    {% block result_list %}
+
+<div class=”results”>
+    <table>
+        
+    <thead>
+      <tr>
+        <th>
+          <div class=”text”>
+            <a href=”#”>Category</a>
+          </div>
+        </th>
+        <th>
+          <div class=”text”>
+            <a href=”#”>Today</a>
+          </div>
+        </th>
+        <th>
+          <div class=”text”>
+            <a href=”#”>Week</a>
+          </div>
+        </th>
+        <th>
+          <div class=”text”>
+            <a href=”#”>Month</a>
+          </div>
+        </th>
+        <th>
+          <div class=”text”>
+            <a href=”#”>Total</a>
+          </div>
+        </th>
+      </tr>
+    </thead>
+          
+        <tbody>
+          {% for row in summary %}
+      <tr class=”{% cycle "row1" "row2" %}”>
+        <td> <h3>{{ row.category }} </h3></td>
+        <td> {{ row.today|default:0 }} </td>
+        <td> {{ row.week | default:0  }} </td>
+        <td> {{ row.month | default:0  }} </td>
+        <td> {{ row.total | default:0  }} </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+    
+  </table>
+</div>
+{% endblock %}
