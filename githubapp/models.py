@@ -46,3 +46,7 @@ class GitHub(models.Model):
     query = models.ForeignKey("Queries", null=True)
     creation_date = models.DateTimeField(auto_now=True)
 
+    def admin_thumbnail(self):
+        return '<img src="%s" width="30" height="30" />' % (self.avatar_url) 
+    admin_thumbnail.short_description = 'Thumbnail'
+    admin_thumbnail.allow_tags = True
