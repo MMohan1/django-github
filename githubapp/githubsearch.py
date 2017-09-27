@@ -88,11 +88,10 @@ class gitHubApi():
             rec["query"] = self.basic_search_url
             rec["github_id"] = rec.pop("id")
             rec.pop("score")
-            user_data = self.complete_the_user_data(rec)
-            user = self.create_the_user(user_data)
-            user_data["user"] = user
-            user_data.pop("query")
-            github = self.save_the_github_data(user_data)
+            rec["user"] = rec.pop("login")
+            rec.pop("query")
+            rec = self.complete_the_user_data(rec)
+            github = self.save_the_github_data(rec)
             query_obj.github_set.add(github)
             if location_obj:
                 location_obj.github_set.add(github)

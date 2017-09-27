@@ -2,7 +2,6 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from django.contrib.auth.models import User
 
 
 class Language(models.Model):
@@ -22,7 +21,7 @@ class Queries(models.Model):
 
 
 class GitHub(models.Model):
-    user = models.ForeignKey(User)
+    user = models.TextField()
     github_id = models.IntegerField()
     avatar_url = models.TextField()
     gravatar_id = models.TextField()
@@ -41,8 +40,8 @@ class GitHub(models.Model):
     site_admin = models.TextField()
     location = models.ForeignKey("Location", null=True)
     language = models.ForeignKey("Language", null=True)
-    followers = models.IntegerField()
-    repos = models.IntegerField()
+    followers = models.IntegerField(null=True)
+    repos = models.IntegerField(null=True)
     query = models.ForeignKey("Queries", null=True)
     creation_date = models.DateTimeField(auto_now=True)
 
