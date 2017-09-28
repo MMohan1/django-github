@@ -106,7 +106,7 @@ TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 
 #APP CONFIG
-DEVELOPER_SETUP = False
+DEVELOPER_SETUP = True
 MAX_GITHUB_SEARCH = 2 # Note the max limit in devloper instance is 100 for get more please make the DEVELOPER_SETUP False
 
 # celery config
