@@ -1,6 +1,5 @@
 import requests
-from django.contrib.auth.models import User
-from models import GitHub, Queries, Language, Location
+from models import GitHub, Queries, Language
 
 
 class gitHubApi():

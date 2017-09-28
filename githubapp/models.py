@@ -9,11 +9,6 @@ class Language(models.Model):
     created_date = models.DateTimeField(auto_now=True)
 
 
-class Location(models.Model):
-    location = models.CharField(primary_key=True, max_length=1000)
-    created_date = models.DateTimeField(auto_now=True)
-
-
 class Queries(models.Model):
     query = models.TextField(primary_key=True)
     total_results = models.IntegerField()
