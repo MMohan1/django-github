@@ -1,23 +1,30 @@
 import requests
 from models import GitHub, Queries, Language
+from django.conf import settings
+from .tasks import search_users
 
 
 class gitHubApi():
     """
     """
 
-    def __init__(self, request):
-        self.request = request
+    def __init__(self, request, background_process=False):
+        if not background_process:
+            self.request = request.POST
+        else:
+            self.request = request
         self.basic_search_url = "https://api.github.com/search/users"
+        self.developer_instance = settings.DEVELOPER_SETUP
+        self.max_search = settings.MAX_GITHUB_SEARCH
 
     def make_the_search_query(self):
         """
         """
         query_perms = {"location": "+location:",  "search_type": "+type:",
                        "fields": "+in:", "language": "+language:", "followers": "+followers:=>"}
-        username = self.request.POST.get('user')
+        username = self.request.get('user')
         self.basic_search_url += "?q=" + username
-        for key, value in self.request.POST.iteritems():
+        for key, value in self.request.iteritems():
             if value and key in query_perms:
                 self.basic_search_url += query_perms[key] + value
 
@@ -33,7 +40,10 @@ class gitHubApi():
             return_dict["total"] = results_dict["total_count"]
             return_dict["query"] = self.basic_search_url
             return_dict["message"] = "Fatching the requests for Your given request is initiated...."
-            self.get_all_the_results(results_dict)
+            if self.developer_instance:
+                self.get_all_the_results(results_dict)
+            else:
+                search_users.delay(self.request, results_dict)
         return return_dict
 
     def get_the_results(self, search_url=None):
@@ -51,12 +61,12 @@ class gitHubApi():
         total = results_dict["total_count"]
         language_obj = None
         query_obj = self.save_the_query(total)
-        if self.request.POST.get("language"):
-            language_obj = self.save_the_language(self.request.POST.get("language"))
+        if self.request.get("language"):
+            language_obj = self.save_the_language(self.request.get("language"))
         self.save_the_results(results_dict["items"], query_obj, language_obj)
         pagination = 100
         page = 2
-        while pagination < results_dict["total_count"]:
+        while pagination < results_dict["total_count"] and not self.developer_instance:
             page_url = self.basic_search_url + "&page=" + str(page)
             results = self.get_the_results(page_url)
             if results.status_code == 200:
@@ -77,7 +87,10 @@ class gitHubApi():
     def save_the_results(self, results, query_obj, language_obj):
         """
         """
+        saved_count = 0
         for rec in results:
+            if self.developer_instance and self.max_search <= saved_count:
+                return None
             rec["query"] = self.basic_search_url
             rec["github_id"] = rec.pop("id")
             rec.pop("score")
@@ -88,10 +101,12 @@ class gitHubApi():
             query_obj.github_set.add(github)
             if language_obj:
                 language_obj.github_set.add(github)
+            saved_count += 1
 
     def save_the_github_data(self, user_data):
         """
         """
+        print "Saving user_data", user_data
         github_user, update = GitHub.objects.update_or_create(user=user_data["user"], defaults=user_data)
         return github_user
 

@@ -102,5 +102,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
-#TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+
+#APP CONFIG
+DEVELOPER_SETUP = False
+MAX_GITHUB_SEARCH = 2 # Note the max limit in devloper instance is 100 for get more please make the DEVELOPER_SETUP False
+
+# celery config
+BROKER_URL = 'amqp://hirealchemy:hirealchemy@localhost:5672/hirealchemy'
+CELERY_RESULT_BACKEND = 'amqp://hirealchemy:hirealchemy@localhost:5672/hirealchemy'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
