@@ -48,7 +48,7 @@ class GitHub(models.Model):
     public_repos = models.IntegerField(null=True)
     public_gists = models.IntegerField(null=True)
     query = models.ForeignKey("Queries", null=True)
-    creation_date = models.DateTimeField(auto_now=True)
+    created_date = models.DateTimeField(auto_now=True)
 
     def admin_thumbnail(self):
         return '<img src="%s" width="30" height="30" />' % (self.avatar_url) 

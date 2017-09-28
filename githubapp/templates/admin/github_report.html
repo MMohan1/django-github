@@ -3,13 +3,12 @@
     <h1> Git Hub Reports </h1>
 {% endblock %}
     {% block result_list %}
-
-<div class=”results”>
-    <table>
+<div class="results" style="width:990px;">
+    <table class="my-listing">
         
     <thead>
       <tr>
-        <th>
+        <th >
           <div class=”text”>
             <a href=”#”>Category</a>
           </div>
@@ -33,22 +32,28 @@
           <div class=”text”>
             <a href=”#”>Total</a>
           </div>
+          <th>
+          <div class=”text”>
+            <a href=”#”>{{start}} To {{end}}</a>
+          </div>
         </th>
       </tr>
     </thead>
           
         <tbody>
           {% for row in summary %}
-      <tr class=”{% cycle "row1" "row2" %}”>
+      <tr width = 10% class=”{% cycle "row1" "row2" %}”>
         <td> <h3>{{ row.category }} </h3></td>
         <td> {{ row.today|default:0 }} </td>
         <td> {{ row.week | default:0  }} </td>
         <td> {{ row.month | default:0  }} </td>
         <td> {{ row.total | default:0  }} </td>
+        <td> {{ row.range | default:0  }} </td>
       </tr>
       {% endfor %}
     </tbody>
     
   </table>
 </div>
+
 {% endblock %}
