@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import GitHub, Queries
 from rangefilter.filter import DateRangeFilter
-from django.db.models import *
+from django.db.models import Sum, Case, When, IntegerField
 from datetime import datetime, timedelta
 
 
