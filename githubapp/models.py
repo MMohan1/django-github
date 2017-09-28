@@ -19,6 +19,10 @@ class Queries(models.Model):
     total_results = models.IntegerField()
     created_date = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name = 'Reports'
+        verbose_name_plural = 'Reports'
+
 
 class GitHub(models.Model):
     user = models.TextField()
@@ -54,3 +58,8 @@ class GitHub(models.Model):
         return '<img src="%s" width="30" height="30" />' % (self.avatar_url) 
     admin_thumbnail.short_description = 'Thumbnail'
     admin_thumbnail.allow_tags = True
+
+
+    class Meta:
+        verbose_name = 'Github'
+        verbose_name_plural = 'Github'
