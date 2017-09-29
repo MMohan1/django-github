@@ -61,6 +61,10 @@ default app setup is developer setup.the set up settings are in the githuppapi/s
 Prdocation setup require the <a href="https://www.rabbitmq.com/download.html"> Rabbitmq </a> and python <a href="http://www.celeryproject.org/"> Celery</a>.
 The <a href "http://docs.celeryproject.org/en/latest/getting-started/brokers/rabbitmq.html"> celery Configuration </a> is require to run the app. Once the rabbitmq and celey setup done. change the githuppapi/settings.py DEVELOPER_SETUP to False to search and store the results in background.
 
+Run the celery like-
+
+	celery -A githubapi worker -l info
+
 
 
 # Results
