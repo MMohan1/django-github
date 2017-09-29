@@ -4,10 +4,8 @@ from rangefilter.filter import DateRangeFilter
 from django.db.models import Sum, Case, When, IntegerField
 from datetime import datetime, timedelta
 
-
 @admin.register(GitHub)
 class GitHubAdmin(admin.ModelAdmin):
-    #fields = ('user', 'github_id', 'followers')
     list_display = ['admin_thumbnail', 'user', "email", 'created_date', "followers", "public_repos", "location"]
     search_fields = ("email",)
     ordering = ('-created_date',)
@@ -19,6 +17,9 @@ class ReportAdmin(admin.ModelAdmin):
     change_list_template = "admin/github_report.html"
     date_hierarchy = "created_date"
     list_filter = (('created_date', DateRangeFilter),)
+
+    def has_add_permission(self, request):
+        return False
 
     def changelist_view(self, request, extra_context=None):
         response = super(ReportAdmin, self).changelist_view(request, extra_context=extra_context,)
