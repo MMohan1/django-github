@@ -36,9 +36,7 @@ To run this project:
 
 You can now visit the following URLS:
 
-	* http://127.0.0.1:8000/app/
-	* http://127.0.0.1:8000/app/test/
-	* http://127.0.0.1:8000/app/profile/
+	* http://127.0.0.1:8000/github/search/
 
 # Tests
 

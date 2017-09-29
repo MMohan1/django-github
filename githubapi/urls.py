@@ -17,6 +17,6 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 urlpatterns = [
-    url(r'^app/', include('githubapp.urls')),
+    url(r'^github/', include('githubapp.urls')),
     url(r'^admin/', include(admin.site.urls)),
 ]

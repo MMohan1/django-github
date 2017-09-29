@@ -19,7 +19,7 @@
 
 
       <div class="container text-center">
-          <form class="form-signin" id="login_form" method="post" action="/app/profile/">
+          <form class="form-signin" id="login_form" method="post" action="/github/search/">
             {% csrf_token %}
 
             <br>
@@ -33,44 +33,16 @@
           </form>
       </div>
       <div>
+        {% if data%}
         <h4>Total: {{data.total}}</h4>
         <h4>Fired Github Query:{{data.query}}</h4> 
         <span>{{data.message}}</span>
         <br>
         <span>Please go to admin panel to see the results.</span>
+        {% else %}
+        <h4>Search Gists........</h4>
+        {% endif %}
       </div>
-      {% comment %}
-      <div class="table-responsive">
-          <table class="table table-bordered table-hover table-striped tablesorter">
-              <thead>
-              <tr>
-                <th class="header"> Total <i class="icon-sort"></i></th>
-                <th class="header"> Fired Query <i class="icon-sort"></i></th>
-                <th class="header"> Message <i class="icon-sort"></i></th>
-                <th class="header"> Public Gists <i class="icon-sort"></i></th>
-                <th class="header"> Email <i class="icon-sort"></i></th>
-                <th class="header"> Followers <i class="icon-sort"></i></th>
-                <th class="header"> Following <i class="icon-sort"></i></th>
-              </tr>
-          </thead>
-          <tbody>
-          
-          {% for key in data %}
-              <tr>
-                  <td>{{ key.name }}</td>
-                  <td>{{ key.blog }}</td>
-                  <td>{{ key.public_repos }}</td>
-                  <td>{{ key.public_gists }}</td>
-                  <td>{{ key.email }}</td>
-                  <td>{{ key.followers }}</td>
-                  <td>{{ key.following }}</td>
-              </tr>
-          {% endfor %}
-          
-          </tbody>
-          </table>
-      </div>
-      {% endcomment %}
     </div>
 </body>
 </html>
