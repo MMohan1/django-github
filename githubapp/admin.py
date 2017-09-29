@@ -24,7 +24,8 @@ class ReportAdmin(admin.ModelAdmin):
         curr_time = datetime.now()
         week_start_date = curr_time - timedelta(days=curr_time.weekday())
         start = request.GET.get("created_date__gte", "1900-01-01")
-        end = request.GET.get("created_date__lte", "1900-01-01")
+        end = request.GET.get("created_date__lte", "1900-01-02")
+        end_tmp = end + " 23:59:59"
         results_dict_query = Queries.objects.aggregate(today=Sum(Case(When(created_date__year=curr_time.year, created_date__month=curr_time.month,
                                                                            created_date__day=curr_time.day, then=1), output_field=IntegerField())),
                                                        month=Sum(
@@ -35,7 +36,7 @@ class ReportAdmin(admin.ModelAdmin):
                                                        total=Sum(Case(When(created_date__year__gte=1900,
                                                                            then=1), output_field=IntegerField())),
                                                        range=Sum(
-                                                           Case(When(created_date__range=[start, end], then=1), output_field=IntegerField())),
+                                                           Case(When(created_date__range=[start, end_tmp], then=1), output_field=IntegerField())),
                                                        )
 
         results_dict_user = GitHub.objects.aggregate(today=Sum(Case(When(created_date__year=curr_time.year, created_date__month=curr_time.month,
@@ -48,7 +49,7 @@ class ReportAdmin(admin.ModelAdmin):
                                                      total=Sum(Case(When(created_date__year__gte=1900,
                                                                          then=1), output_field=IntegerField())),
                                                      range=Sum(
-                                                         Case(When(created_date__range=[start, end], then=1), output_field=IntegerField())),
+                                                         Case(When(created_date__range=[start, end_tmp], then=1), output_field=IntegerField())),
                                                      )
         results_dict_query["category"] = "Queries"
         results_dict_user["category"] = "User"
