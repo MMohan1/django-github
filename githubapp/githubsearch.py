@@ -20,7 +20,7 @@ class gitHubApi():
     def make_the_search_query(self):
         """
         """
-        query_perms = {"location": "+location:",  "search_type": "+type:",
+        query_perms = {"location": "+location:",  "search_type": "+type:", "repos": "+repos:=>",
                        "fields": "+in:", "language": "+language:", "followers": "+followers:=>"}
         username = self.request.get('user')
         self.basic_search_url += "?q=" + username
