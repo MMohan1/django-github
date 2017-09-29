@@ -59,12 +59,15 @@ The <a href="http://docs.celeryproject.org/en/latest/getting-started/brokers/rab
 
 # Results
 
-To see the stored results Follow the stapes-
-   create superuser
-   	python manage.py createsuperuser
-   You can now visit the following URLS
+To see the stored results Follow the steps
+To create the django admin superuser:
+
+    python manage.py createsuperuser
+
+You can now visit the following URLS:
+
    	* http://127.0.0.1:8000/admin/
-   
+
   # Tests
 
 Run the test suite:
