@@ -22,6 +22,7 @@ With Bower, you can install the front-end dependencies by running:
 
 This will generate the **static** folder along with **bootstrap** and **jquery** inside it.
 
+
 # Running the project
 
 To run this project:
@@ -43,3 +44,30 @@ You can now visit the following URLS:
 Run the test suite:
 
     python manage.py test
+
+
+# Developer Setup
+
+default app setup is developer setup.the set up settings are in the githuppapi/settings.py file.
+        DEVELOPER_SETUP
+        MAX_GITHUB_SEARCH
+
+    The DEVELOPER_SETUP is boolena that means is set is developer or Prod.
+    MAX_GITHUB_SEARCH - maximaum how many search results will be store in developer data base. The max size is 100.    
+    
+
+#Producation SetUp
+
+Prdocation setup require the <a href="https://www.rabbitmq.com/download.html"> Rabbitmq </a> and python <a href="http://www.celeryproject.org/"> Celery</a>.
+The <a href "http://docs.celeryproject.org/en/latest/getting-started/brokers/rabbitmq.html"> celery Configuration </a> is require to run the app. Once the rabbitmq and celey setup done. change the githuppapi/settings.py DEVELOPER_SETUP to False to search and store the results in background.
+
+
+
+# Results
+
+To see the stored results Follow the stapes-
+   # create superuser
+   python manage.py createsuperuser
+   # You can now visit the following URLS:
+   * http://127.0.0.1:8000/admin/
+   
