@@ -7,11 +7,11 @@ from datetime import datetime, timedelta
 
 @admin.register(GitHub)
 class GitHubAdmin(admin.ModelAdmin):
-    fields = ('user', 'github_id', 'followers')
+    #fields = ('user', 'github_id', 'followers')
     list_display = ['admin_thumbnail', 'user', "email", 'created_date', "followers", "public_repos", "location"]
     search_fields = ("email",)
     ordering = ('-created_date',)
-    list_filter = (('created_date', DateRangeFilter), 'public_repos', "location", "followers")
+    list_filter = (('created_date', DateRangeFilter), "language__language", 'public_repos', "location", "followers")
 
 
 @admin.register(Queries)
