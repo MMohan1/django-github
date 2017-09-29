@@ -29,9 +29,9 @@ To run this project:
 
 
     # Setup the database
-    python manage.py migrate
     python manage.py makemigrations
-
+    python manage.py migrate
+    
     # Run the server
     python manage.py runserver
 
