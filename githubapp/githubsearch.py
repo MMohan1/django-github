@@ -27,6 +27,7 @@ class gitHubApi():
         for key, value in self.request.iteritems():
             if value and key in query_perms:
                 self.basic_search_url += query_perms[key] + value
+        self.basic_search_url = self.basic_search_url+"+sort:repositories"  # Added the default sort by repos count
 
     def search_the_users(self):
         """
