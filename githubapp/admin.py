@@ -53,8 +53,8 @@ class ReportAdmin(admin.ModelAdmin):
                                                      range=Sum(
                                                          Case(When(created_date__range=[start, end_tmp], then=1), output_field=IntegerField())),
                                                      )
-        results_dict_query["category"] = "Queries"
-        results_dict_user["category"] = "User"
+        results_dict_query["category"] = "API Call"
+        results_dict_user["category"] = "User Created"
         if start == "1900-01-01":
             start = "select from"
             end = "select to"
