@@ -139,8 +139,9 @@ class gitHubApi():
                 if rec.get("payload", {}).get("commits"):
                     commits = rec.get("payload", {}).get("commits")
                     for record in commits:
-                        if record["author"].get("name").lower() == user_name.lower():
-                            return record["author"]["email"]
+                        return record["author"]["email"]
+                        # if record["author"].get("name").lower() == user_name.lower():
+                        #     return record["author"]["email"]
         return None
 
     def save_the_query(self, total):
